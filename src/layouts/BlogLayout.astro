@@ -1,6 +1,5 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-
 import { BASE } from '@/lib/base';
 
 interface Props {
@@ -12,17 +11,17 @@ interface Props {
 
 const { title, description, date, category } = Astro.props;
 
-const categoryLabels: Record<string, string> = {
-  'product-experience': '產品經驗談',
-  'product-perspectives': '產品觀點',
-  'career-growth': '職涯成長',
-  'ai-tools': 'AI / 工具應用',
+const categoryLabels: Record<string, { en: string; zh: string }> = {
+  'product-experience': { en: 'Product Experience', zh: '產品經驗談' },
+  'product-perspectives': { en: 'Product Perspectives', zh: '產品觀點' },
+  'career-growth': { en: 'Career Growth', zh: '職涯成長' },
+  'ai-tools': { en: 'AI & Tools', zh: 'AI / 工具應用' },
 };
 
+const cat = categoryLabels[category] ?? { en: category, zh: category };
+
 const formatted = date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  year: 'numeric', month: 'long', day: 'numeric',
 });
 ---
 
@@ -30,8 +29,14 @@ const formatted = date.toLocaleDateString('en-US', {
   <article class="blog-post">
     <header>
       <div class="meta">
-        <a href={`${BASE}/talk`} class="back">← All posts</a>
-        <span class="tag">{categoryLabels[category] ?? category}</span>
+        <a href={`${BASE}/notes`} class="back">
+          <span class="en">← All posts</span>
+          <span class="zh">← 所有文章</span>
+        </a>
+        <span class="tag">
+          <span class="en">{cat.en}</span>
+          <span class="zh">{cat.zh}</span>
+        </span>
       </div>
       <h1>{title}</h1>
       <time datetime={date.toISOString()}>{formatted}</time>
@@ -43,9 +48,7 @@ const formatted = date.toLocaleDateString('en-US', {
 </BaseLayout>
 
 <style>
-  .blog-post {
-    padding: 3rem 0 4rem;
-  }
+  .blog-post { padding: 3rem 0 4rem; }
 
   header {
     margin-bottom: 2.5rem;
@@ -53,56 +56,18 @@ const formatted = date.toLocaleDateString('en-US', {
     border-bottom: 1px solid var(--color-border);
   }
 
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-  }
+  .meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .back { font-size: 0.85rem; color: var(--color-text-muted); }
 
-  .back {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-  }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  time { font-size: 0.85rem; color: var(--color-text-muted); }
 
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  time {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-  }
-
-  .content {
-    line-height: 1.75;
-  }
-
-  .content :global(h2) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .content :global(h3) {
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .content :global(p) {
-    margin-top: 1rem;
-  }
-
-  .content :global(ul),
-  .content :global(ol) {
-    margin-top: 1rem;
-    padding-left: 1.5rem;
-  }
-
-  .content :global(li) {
-    margin-top: 0.35rem;
-  }
-
+  .content { line-height: 1.75; }
+  .content :global(h2) { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content :global(h3) { margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  .content :global(p) { margin-top: 1rem; }
+  .content :global(ul), .content :global(ol) { margin-top: 1rem; padding-left: 1.5rem; }
+  .content :global(li) { margin-top: 0.35rem; }
   .content :global(code) {
     font-family: var(--font-mono);
     font-size: 0.875em;
@@ -110,7 +75,6 @@ const formatted = date.toLocaleDateString('en-US', {
     padding: 0.15em 0.4em;
     border-radius: 4px;
   }
-
   .content :global(blockquote) {
     border-left: 3px solid var(--color-accent);
     padding-left: 1rem;
@@ -118,7 +82,5 @@ const formatted = date.toLocaleDateString('en-US', {
     margin: 1.25rem 0;
   }
 
-  @media (max-width: 600px) {
-    h1 { font-size: 1.6rem; }
-  }
+  @media (max-width: 600px) { h1 { font-size: 1.6rem; } }
 </style>

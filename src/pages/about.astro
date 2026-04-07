@@ -9,25 +9,18 @@ const recentPosts = (await getCollection('blog'))
   .slice(0, 3);
 
 const skills = [
-  'Product Strategy',
-  'Roadmap Planning',
-  'Agile / Scrum',
-  'User Research',
-  'Stakeholder Management',
-  'B2B SaaS',
-  'Enterprise Platforms',
-  'Social Commerce',
-  'Fintech',
-  'Cloud / FinOps',
-  'AI Tools',
-  'Cross-functional Leadership',
+  'Product Strategy', 'Roadmap Planning', 'Agile / Scrum',
+  'User Research', 'Stakeholder Management', 'B2B SaaS',
+  'Enterprise Platforms', 'Social Commerce', 'Fintech',
+  'Cloud / FinOps', 'AI Tools', 'Cross-functional Leadership',
 ];
 
 interface Job {
   company: string;
   role: string;
   period: string;
-  summary: string;
+  en: string;
+  zh: string;
 }
 
 const experience: Job[] = [
@@ -35,60 +28,72 @@ const experience: Job[] = [
     company: 'TSMC (台積電)',
     role: 'Senior Product Manager',
     period: '2023/07 – Present',
-    summary: 'Transformed a traditional IT team into a product team, overseeing 3+ fab systems and delivering ~20% efficiency gains for equipment engineers.',
+    en: 'Transformed a traditional IT team into a product team, overseeing 3+ fab systems and delivering ~20% efficiency gains for equipment engineers.',
+    zh: '帶領傳統 IT 團隊轉型為產品團隊，管理 3+ 座晶圓廠系統，為設備工程師提升約 20% 作業效率。',
   },
   {
     company: 'Atome',
     role: 'Sr. Product Manager',
     period: '2022/03 – 2023/04',
-    summary: 'Drove fintech product growth across 7 Asian markets, launching OTC payments in Japan (+20% conversion) and eGIRO in Singapore (−95% transaction costs).',
+    en: 'Drove fintech product growth across 7 Asian markets, launching OTC payments in Japan (+20% conversion) and eGIRO in Singapore (−95% transaction costs).',
+    zh: '推動跨亞洲 7 個市場的金融科技產品成長，在日本推出 OTC 付款（轉換率 +20%）、在新加坡導入 eGIRO（交易成本 −95%）。',
   },
   {
     company: 'LINE Taiwan Limited',
     role: 'Sr. Product Manager',
     period: '2021/11 – 2022/03',
-    summary: 'Led evaluation and launch planning for a new group-buy business model, redefining product scope to align with evolving market demands.',
+    en: 'Led evaluation and launch planning for a new group-buy business model, redefining product scope to align with evolving market demands.',
+    zh: '主導新團購商業模式的評估與上線規劃，重新定義核心產品範疇以對應市場需求。',
   },
   {
     company: 'iKala — Shoplus',
     role: 'Senior Product Manager',
     period: '2020/03 – 2021/09',
-    summary: 'Co-launched a social commerce platform with FamilyMart, reaching 1,600+ sign-ups in month one and a 21% activated retention rate.',
+    en: 'Co-launched a social commerce platform with FamilyMart, reaching 1,600+ sign-ups in month one and a 21% activated retention rate.',
+    zh: '與全家便利商店共同上線社群電商平台，首月達 1,600+ 用戶，活躍留存率 21%。',
   },
   {
     company: 'iKala — CDP',
     role: 'Senior Product Manager',
     period: '2019/06 – 2020/03',
-    summary: 'Defined and launched a Customer Data Platform, securing a Google partnership and early customers across e-commerce, media, and financial verticals.',
+    en: 'Defined and launched a Customer Data Platform, securing a Google partnership and early customers across e-commerce, media, and financial verticals.',
+    zh: '定義並推出顧客數據平台，與 Google 建立合作，獲得跨電商、媒體、金融領域早期客戶。',
   },
   {
     company: 'iKala — StraaS',
     role: 'Product Manager',
     period: '2019/03 – 2019/05',
-    summary: 'Maintained a B2B live streaming platform and conducted market research to identify new verticals for expansion.',
+    en: 'Maintained a B2B live streaming platform and conducted market research to identify new verticals for expansion.',
+    zh: '維護 B2B 直播平台並進行市場研究，探索新垂直領域擴張機會。',
   },
   {
     company: 'SkyREC Inc.',
     role: 'Project Manager',
     period: '2016/10 – 2019/01',
-    summary: 'Built three teams from scratch and led 100+ enterprise implementations (IKEA, Uniqlo, etc.), boosting productivity 50% and cutting implementation costs 60%.',
+    en: 'Built three teams from scratch and led 100+ enterprise implementations (IKEA, Uniqlo, etc.), boosting productivity 50% and cutting implementation costs 60%.',
+    zh: '從零建立三個團隊，主導 100+ 家企業導入（IKEA、Uniqlo 等），生產力提升 50%、成本降低 60%。',
   },
   {
     company: 'New Soft (力新國際)',
     role: 'Product Owner (Pre-sales)',
     period: '2016/05 – 2016/09',
-    summary: 'Designed and shipped an O2O platform targeting student makers in 3 months, coordinating with banks and government financial departments.',
+    en: 'Designed and shipped an O2O platform targeting student makers in 3 months, coordinating with banks and government financial departments.',
+    zh: '3 個月內設計並上線面向學生 Maker 的 O2O 平台，協調銀行與政府財政部門完成金流整合。',
   },
   {
     company: 'Tong Hsing Electronic Industries',
     role: 'Project Manager (Sales Engineer)',
     period: '2014/12 – 2016/04',
-    summary: 'Managed overseas key accounts (LG Innotek, etc.) and led cross-functional teams to avert over USD 1M in potential compensation.',
+    en: 'Managed overseas key accounts (LG Innotek, etc.) and led cross-functional teams to avert over USD 1M in potential compensation.',
+    zh: '管理海外重點客戶（LG Innotek 等），帶領跨部門團隊化解超過百萬美元的潛在賠償風險。',
   },
 ];
+
+const visibleJobs = experience.slice(0, 3);
+const hiddenJobs = experience.slice(3);
 ---
 
-<BaseLayout title="About" description="Chang-Wen Ho (Johnny) — Senior Product Manager based in Hsinchu, Taiwan.">
+<BaseLayout title="About">
   <div class="about-page">
 
     <!-- Profile Header -->
@@ -113,30 +118,28 @@ const experience: Job[] = [
 
     <!-- Bio -->
     <section class="bio">
-      <h2>About</h2>
-      <p>
-        I make complex systems feel simple. As a Senior Product Manager with nearly a decade of
-        experience, I've built products at the intersection of deep technology and human workflow —
-        from semiconductor fab platforms at TSMC to fintech products across 7 Asian markets at Atome,
-        and social commerce tools that hit 1,600 sign-ups in their first month.
-      </p>
-      <p>
-        What sets me apart isn't just knowing how to write a PRD or run a sprint — it's the ability
-        to walk into a room full of engineers, operators, and executives, and leave with everyone
-        aligned on what matters and why. I've learned that great product work is 30% vision and
-        70% trust.
-      </p>
-      <p>
-        I'm genuinely excited about how AI is reshaping the PM role — not by replacing judgment,
-        but by amplifying it. I experiment constantly with tools like Claude and Cursor to work
-        faster and think sharper. I write about what I learn, because the best way to refine
-        thinking is to share it.
-      </p>
+      <h2>
+        <span class="en">About</span>
+        <span class="zh">關於我</span>
+      </h2>
+      <div class="en">
+        <p>I make complex systems feel simple. As a Senior Product Manager with nearly a decade of experience, I've built products at the intersection of deep technology and human workflow — from semiconductor fab platforms at TSMC to fintech products across 7 Asian markets at Atome, and social commerce tools that hit 1,600 sign-ups in their first month.</p>
+        <p>What sets me apart isn't just knowing how to write a PRD or run a sprint — it's the ability to walk into a room full of engineers, operators, and executives, and leave with everyone aligned on what matters and why. I've learned that great product work is 30% vision and 70% trust.</p>
+        <p>I'm genuinely excited about how AI is reshaping the PM role — not by replacing judgment, but by amplifying it. I experiment constantly with tools like Claude and Cursor to work faster and think sharper. I write about what I learn, because the best way to refine thinking is to share it.</p>
+      </div>
+      <div class="zh">
+        <p>我擅長讓複雜的系統變得簡單易懂。身為擁有近十年經驗的資深產品經理，我在科技深度與人類工作流程的交匯處打造產品——從台積電的晶圓廠平台，到在 Atome 跨越 7 個亞洲市場的金融科技產品，以及首月達 1,600 位用戶的社群電商工具。</p>
+        <p>讓我與眾不同的，不只是撰寫 PRD 或跑 sprint 的能力，而是走進一個充滿工程師、操作員和高管的會議室後，能讓所有人對「什麼才是重要的事」達成共識。我深刻體會到：優秀的產品工作，30% 是願景，70% 是信任。</p>
+        <p>我對 AI 重塑 PM 角色這件事充滿熱忱——不是取代判斷力，而是放大它。我持續使用 Claude、Cursor 等工具實驗，以更快的速度工作、更清晰地思考。我把所學記錄下來，因為精煉思維最好的方式，就是把它說出來。</p>
+      </div>
     </section>
 
     <!-- Skills -->
     <section class="skills-section">
-      <h2>Skills & Expertise</h2>
+      <h2>
+        <span class="en">Skills & Expertise</span>
+        <span class="zh">技能與專長</span>
+      </h2>
       <div class="skills-grid">
         {skills.map(skill => <span class="tag">{skill}</span>)}
       </div>
@@ -144,9 +147,12 @@ const experience: Job[] = [
 
     <!-- Experience -->
     <section class="experience-section">
-      <h2>Experience</h2>
+      <h2>
+        <span class="en">Experience</span>
+        <span class="zh">工作經歷</span>
+      </h2>
       <div class="timeline">
-        {experience.map(job => (
+        {visibleJobs.map(job => (
           <div class="job">
             <div class="job-header">
               <div>
@@ -155,9 +161,36 @@ const experience: Job[] = [
               </div>
               <span class="job-period">{job.period}</span>
             </div>
-            <p class="job-summary">{job.summary}</p>
+            <p class="job-summary">
+              <span class="en">{job.en}</span>
+              <span class="zh">{job.zh}</span>
+            </p>
           </div>
         ))}
+
+        <details>
+          <summary>
+            <span class="en">Show {hiddenJobs.length} more roles</span>
+            <span class="zh">展開更多 {hiddenJobs.length} 個職位</span>
+          </summary>
+          <div class="hidden-jobs">
+            {hiddenJobs.map(job => (
+              <div class="job">
+                <div class="job-header">
+                  <div>
+                    <strong>{job.company}</strong>
+                    <span class="job-role">{job.role}</span>
+                  </div>
+                  <span class="job-period">{job.period}</span>
+                </div>
+                <p class="job-summary">
+                  <span class="en">{job.en}</span>
+                  <span class="zh">{job.zh}</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        </details>
       </div>
     </section>
 
@@ -165,8 +198,14 @@ const experience: Job[] = [
     {recentPosts.length > 0 && (
       <section class="recent-writing">
         <div class="section-header">
-          <h2>Recent Writing</h2>
-          <a href={`${BASE}/talk`}>All posts →</a>
+          <h2>
+            <span class="en">Recent Writing</span>
+            <span class="zh">近期文章</span>
+          </h2>
+          <a href={`${BASE}/notes`}>
+            <span class="en">All posts →</span>
+            <span class="zh">所有文章 →</span>
+          </a>
         </div>
         <div class="post-list">
           {recentPosts.map(post => (
@@ -193,13 +232,12 @@ const experience: Job[] = [
     gap: 3rem;
   }
 
-  /* Profile Header */
+  /* Profile */
   .profile-header { display: flex; gap: 2rem; align-items: flex-start; }
 
-  .avatar-wrap img,
-  .avatar-fallback {
-    width: 120px;
-    height: 120px;
+  .avatar-wrap img, .avatar-fallback {
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--color-border);
@@ -211,18 +249,17 @@ const experience: Job[] = [
     align-items: center;
     justify-content: center;
     background: var(--color-surface);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--color-text-muted);
   }
 
   .profile-info { flex: 1; }
-  .profile-info h1 { font-size: 1.8rem; margin-bottom: 0.25rem; }
-  .alias { color: var(--color-text-muted); font-weight: 400; font-size: 1.4rem; }
-  .role { color: var(--color-accent); font-weight: 500; margin: 0; }
-  .location { color: var(--color-text-muted); font-size: 0.9rem; margin: 0.25rem 0; }
-
-  .social-links { margin-top: 0.75rem; }
+  .profile-info h1 { font-size: 1.7rem; margin-bottom: 0.2rem; }
+  .alias { color: var(--color-text-muted); font-weight: 400; font-size: 1.3rem; }
+  .role { color: var(--color-accent); font-weight: 500; margin: 0; font-size: 0.95rem; }
+  .location { color: var(--color-text-muted); font-size: 0.88rem; margin: 0.2rem 0 0; }
+  .social-links { margin-top: 0.65rem; }
   .social-links a { font-size: 0.85rem; font-weight: 500; }
 
   /* Section headings */
@@ -230,6 +267,7 @@ const experience: Job[] = [
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--color-border);
+    font-size: 1.1rem;
   }
 
   /* Bio */
@@ -242,45 +280,28 @@ const experience: Job[] = [
   .timeline { display: flex; flex-direction: column; }
 
   .job {
-    padding: 1.1rem 0;
+    padding: 1rem 0;
     border-bottom: 1px solid var(--color-border);
   }
 
   .job:first-child { padding-top: 0; }
-  .job:last-child { border-bottom: none; }
 
   .job-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.25rem;
   }
 
-  .job-header strong { font-size: 0.92rem; display: block; }
+  .job-header strong { font-size: 0.9rem; display: block; }
+  .job-role { display: block; font-size: 0.8rem; color: var(--color-accent); font-weight: 500; margin-top: 0.08rem; }
+  .job-period { font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap; flex-shrink: 0; padding-top: 0.1rem; }
 
-  .job-role {
-    display: block;
-    font-size: 0.82rem;
-    color: var(--color-accent);
-    font-weight: 500;
-    margin-top: 0.1rem;
-  }
+  .job-summary { font-size: 0.87rem; color: var(--color-text-muted); line-height: 1.6; margin: 0; }
 
-  .job-period {
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding-top: 0.1rem;
-  }
-
-  .job-summary {
-    font-size: 0.88rem;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    margin: 0;
-  }
+  .hidden-jobs { padding-top: 0.25rem; }
+  .hidden-jobs .job:last-child { border-bottom: none; }
 
   /* Recent Writing */
   .section-header {
@@ -292,12 +313,7 @@ const experience: Job[] = [
     border-bottom: 1px solid var(--color-border);
   }
 
-  .section-header h2 {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-
+  .section-header h2 { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
   .section-header a { font-size: 0.85rem; color: var(--color-text-muted); }
 
   .post-list { display: flex; flex-direction: column; gap: 1rem; }

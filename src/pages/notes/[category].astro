@@ -1,0 +1,92 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { BASE } from '@/lib/base';
+
+export async function getStaticPaths() {
+  return ['product-experience', 'product-perspectives', 'career-growth', 'ai-tools']
+    .map(cat => ({ params: { category: cat } }));
+}
+
+const { category } = Astro.params;
+
+const categoryMeta: Record<string, { en: string; zh: string; descEn: string; descZh: string }> = {
+  'product-experience': {
+    en: 'Product Experience', zh: '產品經驗談',
+    descEn: 'Real-world stories and lessons from building products.',
+    descZh: '打造產品的真實故事與經驗總結。',
+  },
+  'product-perspectives': {
+    en: 'Product Perspectives', zh: '產品觀點',
+    descEn: 'Frameworks, opinions, and analysis on product management.',
+    descZh: '關於產品管理的框架、觀點與分析。',
+  },
+  'career-growth': {
+    en: 'Career Growth', zh: '職涯成長',
+    descEn: 'Insights on building a PM career and growing as a professional.',
+    descZh: '關於建立 PM 職涯與持續成長的心得。',
+  },
+  'ai-tools': {
+    en: 'AI & Tools', zh: 'AI / 工具應用',
+    descEn: 'How AI and modern tooling are reshaping the way PMs work.',
+    descZh: 'AI 與現代工具如何改變 PM 的工作方式。',
+  },
+};
+
+const meta = categoryMeta[category!] ?? { en: category, zh: category, descEn: '', descZh: '' };
+
+const posts = (await getCollection('blog', ({ data }) => data.category === category))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title={meta.en}>
+  <div class="cat-page">
+    <div class="breadcrumb">
+      <a href={`${BASE}/notes`}>
+        <span class="en">Notes</span>
+        <span class="zh">筆記</span>
+      </a>
+      <span>›</span>
+      <span>
+        <span class="en">{meta.en}</span>
+        <span class="zh">{meta.zh}</span>
+      </span>
+    </div>
+
+    <header class="page-header">
+      <h1>
+        <span class="en">{meta.en}</span>
+        <span class="zh">{meta.zh}</span>
+      </h1>
+      <p>
+        <span class="en">{meta.descEn}</span>
+        <span class="zh">{meta.descZh}</span>
+      </p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="empty">
+        <span class="en">No posts in this category yet — stay tuned!</span>
+        <span class="zh">此分類尚無文章，敬請期待！</span>
+      </p>
+    ) : (
+      <div class="post-list">
+        {posts.map(post => (
+          <BlogCard title={post.data.title} description={post.data.description} date={post.data.date} category={post.data.category} slug={post.slug} />
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .cat-page { padding: 3rem 0 4rem; }
+  .breadcrumb { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem; }
+  .breadcrumb a { color: var(--color-text-muted); }
+  .page-header { margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--color-border); }
+  .page-header h1 { margin-bottom: 0.35rem; }
+  .page-header p { color: var(--color-text-muted); margin: 0; }
+  .post-list { display: flex; flex-direction: column; gap: 1rem; }
+  .empty { color: var(--color-text-muted); font-style: italic; }
+</style>

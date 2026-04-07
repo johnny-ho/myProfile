@@ -1,38 +1,52 @@
 ---
 interface Props {
   title: string;
+  titleZh?: string;
   description: string;
+  descriptionZh?: string;
   date: Date;
   category: string;
   slug: string;
 }
 
-const { title, description, date, category, slug } = Astro.props;
+const { title, titleZh, description, descriptionZh, date, category, slug } = Astro.props;
 import { BASE } from '@/lib/base';
 
-const categoryLabels: Record<string, string> = {
-  'product-experience': '產品經驗談',
-  'product-perspectives': '產品觀點',
-  'career-growth': '職涯成長',
-  'ai-tools': 'AI / 工具應用',
+const categoryLabels: Record<string, { en: string; zh: string }> = {
+  'product-experience': { en: 'Product Experience', zh: '產品經驗談' },
+  'product-perspectives': { en: 'Product Perspectives', zh: '產品觀點' },
+  'career-growth': { en: 'Career Growth', zh: '職涯成長' },
+  'ai-tools': { en: 'AI & Tools', zh: 'AI / 工具應用' },
 };
 
+const cat = categoryLabels[category] ?? { en: category, zh: category };
+
 const formatted = date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  year: 'numeric', month: 'long', day: 'numeric',
 });
 ---
 
 <article>
-  <a href={`${BASE}/talk/${slug}`}>
+  <a href={`${BASE}/notes/${slug}`}>
     <div class="meta">
-      <span class="tag">{categoryLabels[category] ?? category}</span>
+      <span class="tag">
+        <span class="en">{cat.en}</span>
+        <span class="zh">{cat.zh}</span>
+      </span>
       <time datetime={date.toISOString()}>{formatted}</time>
     </div>
-    <h3>{title}</h3>
-    <p>{description}</p>
-    <span class="read-more">Read more →</span>
+    <h3>
+      <span class="en">{title}</span>
+      {titleZh && <span class="zh">{titleZh}</span>}
+    </h3>
+    <p>
+      <span class="en">{description}</span>
+      {descriptionZh && <span class="zh">{descriptionZh}</span>}
+    </p>
+    <span class="read-more">
+      <span class="en">Read more →</span>
+      <span class="zh">閱讀更多 →</span>
+    </span>
   </a>
 </article>
 
@@ -56,24 +70,11 @@ const formatted = date.toLocaleDateString('en-US', {
     text-decoration: none;
   }
 
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.6rem;
-  }
+  .meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
 
-  time {
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-  }
+  time { font-size: 0.8rem; color: var(--color-text-muted); }
 
-  h3 {
-    font-size: 1.1rem;
-    margin: 0;
-    color: var(--color-text);
-    line-height: 1.35;
-  }
+  h3 { font-size: 1.1rem; margin: 0; color: var(--color-text); line-height: 1.35; }
 
   p {
     margin-top: 0.4rem;

@@ -17,6 +17,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Apply saved language immediately to prevent flash -->
+    <script is:inline>
+      (function () {
+        var lang = localStorage.getItem('lang') || 'en';
+        if (lang === 'zh') document.documentElement.classList.add('lang-zh');
+      })();
+    </script>
     <link rel="canonical" href={canonicalURL} />
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />

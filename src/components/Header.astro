@@ -2,8 +2,8 @@
 import { BASE } from '@/lib/base';
 
 const navLinks = [
-  { href: `${BASE}/about`, label: 'About' },
-  { href: `${BASE}/talk`, label: 'Talk' },
+  { href: `${BASE}/about`, en: 'About', zh: '關於' },
+  { href: `${BASE}/notes`, en: 'Notes', zh: '筆記' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -12,18 +12,32 @@ const currentPath = Astro.url.pathname;
 <header>
   <nav class="container">
     <a href={`${BASE}/about`} class="logo">Johnny Ho</a>
-    <ul>
-      {navLinks.map(({ href, label }) => (
-        <li>
-          <a
-            href={href}
-            class={currentPath.startsWith(href) ? 'active' : ''}
-          >{label}</a>
-        </li>
-      ))}
-    </ul>
+    <div class="right">
+      <ul>
+        {navLinks.map(({ href, en, zh }) => (
+          <li>
+            <a href={href} class={currentPath.startsWith(href) ? 'active' : ''}>
+              <span class="en">{en}</span>
+              <span class="zh">{zh}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <button id="lang-toggle" aria-label="Switch language">
+        <span class="en">中文</span>
+        <span class="zh">EN</span>
+      </button>
+    </div>
   </nav>
 </header>
+
+<script>
+  const btn = document.getElementById('lang-toggle');
+  btn?.addEventListener('click', () => {
+    const isZh = document.documentElement.classList.toggle('lang-zh');
+    localStorage.setItem('lang', isZh ? 'zh' : 'en');
+  });
+</script>
 
 <style>
   header {
@@ -42,7 +56,7 @@ const currentPath = Astro.url.pathname;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 1.5rem;
     padding: 0 1.5rem;
   }
 
@@ -55,6 +69,12 @@ const currentPath = Astro.url.pathname;
   }
 
   .logo:hover { text-decoration: none; color: var(--color-accent); }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
   ul { list-style: none; display: flex; gap: 0.25rem; align-items: center; }
 
@@ -69,8 +89,24 @@ const currentPath = Astro.url.pathname;
   ul a:hover { color: var(--color-text); background: var(--color-surface); text-decoration: none; }
   ul a.active { color: var(--color-accent); font-weight: 500; }
 
+  #lang-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.28rem 0.6rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+
+  #lang-toggle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
   @media (max-width: 480px) {
     .logo { font-size: 0.95rem; }
-    ul a { font-size: 0.82rem; padding: 0.3rem 0.5rem; }
+    ul a { font-size: 0.82rem; padding: 0.3rem 0.45rem; }
+    #lang-toggle { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
   }
 </style>
