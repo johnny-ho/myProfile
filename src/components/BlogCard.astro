@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title, description, date, category, slug } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { BASE } from '@/lib/base';
 
 const categoryLabels: Record<string, string> = {
   'product-experience': '產品經驗談',
@@ -25,7 +25,7 @@ const formatted = date.toLocaleDateString('en-US', {
 ---
 
 <article>
-  <a href={`${base}/blog/${slug}`}>
+  <a href={`${BASE}/blog/${slug}`}>
     <div class="meta">
       <span class="tag">{categoryLabels[category] ?? category}</span>
       <time datetime={date.toISOString()}>{formatted}</time>

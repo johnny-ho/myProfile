@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import BlogCard from '@/components/BlogCard.astro';
 import { getCollection } from 'astro:content';
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { BASE } from '@/lib/base';
 
 const allPosts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -29,7 +29,7 @@ const categories = [
         {categories.map(cat => {
           const count = allPosts.filter(p => p.data.category === cat.slug).length;
           return (
-            <a href={`${base}/blog/${cat.slug}`} class="category-card">
+            <a href={`${BASE}/blog/${cat.slug}`} class="category-card">
               <span class="cat-label">{cat.label}</span>
               <span class="cat-en">{cat.en}</span>
               <span class="cat-count">{count} {count === 1 ? 'post' : 'posts'}</span>
