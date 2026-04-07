@@ -16,6 +16,8 @@ const skills = [
   'Stakeholder Management',
   'B2B SaaS',
   'Enterprise Platforms',
+  'Social Commerce',
+  'Fintech',
   'Cloud / FinOps',
   'AI Tools',
   'Cross-functional Leadership',
@@ -28,13 +30,60 @@ interface Job {
   summary: string;
 }
 
-// TODO: Update with complete LinkedIn experience once provided
 const experience: Job[] = [
   {
     company: 'TSMC (台積電)',
     role: 'Senior Product Manager',
-    period: '2021 – Present',
-    summary: 'Leading product strategy and roadmap for enterprise-facing digital platforms at the world\'s leading semiconductor company.',
+    period: '2023/07 – Present',
+    summary: 'Transformed a traditional IT team into a product team, overseeing 3+ fab systems and delivering ~20% efficiency gains for equipment engineers.',
+  },
+  {
+    company: 'Atome',
+    role: 'Sr. Product Manager',
+    period: '2022/03 – 2023/04',
+    summary: 'Drove fintech product growth across 7 Asian markets, launching OTC payments in Japan (+20% conversion) and eGIRO in Singapore (−95% transaction costs).',
+  },
+  {
+    company: 'LINE Taiwan Limited',
+    role: 'Sr. Product Manager',
+    period: '2021/11 – 2022/03',
+    summary: 'Led evaluation and launch planning for a new group-buy business model, redefining product scope to align with evolving market demands.',
+  },
+  {
+    company: 'iKala — Shoplus',
+    role: 'Senior Product Manager',
+    period: '2020/03 – 2021/09',
+    summary: 'Co-launched a social commerce platform with FamilyMart, reaching 1,600+ sign-ups in month one and a 21% activated retention rate.',
+  },
+  {
+    company: 'iKala — CDP',
+    role: 'Senior Product Manager',
+    period: '2019/06 – 2020/03',
+    summary: 'Defined and launched a Customer Data Platform, securing a Google partnership and early customers across e-commerce, media, and financial verticals.',
+  },
+  {
+    company: 'iKala — StraaS',
+    role: 'Product Manager',
+    period: '2019/03 – 2019/05',
+    summary: 'Maintained a B2B live streaming platform and conducted market research to identify new verticals for expansion.',
+  },
+  {
+    company: 'SkyREC Inc.',
+    role: 'Project Manager',
+    period: '2016/10 – 2019/01',
+    summary: 'Built three teams from scratch and led 100+ enterprise implementations (IKEA, Uniqlo, etc.), boosting productivity 50% and cutting implementation costs 60%.',
+  },
+  {
+    company: 'New Soft (力新國際)',
+    role: 'Product Owner (Pre-sales)',
+    period: '2016/05 – 2016/09',
+    summary: 'Designed and shipped an O2O platform targeting student makers in 3 months, coordinating with banks and government financial departments.',
+  },
+  {
+    company: 'Tong Hsing Electronic Industries',
+    role: 'Project Manager (Sales Engineer)',
+    period: '2014/12 – 2016/04',
+    summary: 'Managed overseas key accounts (LG Innotek, etc.) and led cross-functional teams to avert over USD 1M in potential compensation.',
   },
 ];
 ---
@@ -66,9 +115,10 @@ const experience: Job[] = [
     <section class="bio">
       <h2>About</h2>
       <p>
-        I make complex systems feel simple. As a Senior Product Manager with over a decade of
+        I make complex systems feel simple. As a Senior Product Manager with nearly a decade of
         experience, I've built products at the intersection of deep technology and human workflow —
-        from semiconductor fab platforms to enterprise SaaS tools used by thousands of internal users.
+        from semiconductor fab platforms at TSMC to fintech products across 7 Asian markets at Atome,
+        and social commerce tools that hit 1,600 sign-ups in their first month.
       </p>
       <p>
         What sets me apart isn't just knowing how to write a PRD or run a sprint — it's the ability
@@ -172,7 +222,7 @@ const experience: Job[] = [
   .role { color: var(--color-accent); font-weight: 500; margin: 0; }
   .location { color: var(--color-text-muted); font-size: 0.9rem; margin: 0.25rem 0; }
 
-  .social-links { margin-top: 0.75rem; display: flex; gap: 0.75rem; }
+  .social-links { margin-top: 0.75rem; }
   .social-links a { font-size: 0.85rem; font-weight: 500; }
 
   /* Section headings */
@@ -189,42 +239,44 @@ const experience: Job[] = [
   .skills-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
   /* Experience */
-  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline { display: flex; flex-direction: column; }
 
   .job {
-    padding: 1.25rem 0;
+    padding: 1.1rem 0;
     border-bottom: 1px solid var(--color-border);
   }
 
   .job:first-child { padding-top: 0; }
+  .job:last-child { border-bottom: none; }
 
   .job-header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
   }
 
-  .job-header strong { font-size: 0.95rem; }
+  .job-header strong { font-size: 0.92rem; display: block; }
 
   .job-role {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--color-accent);
     font-weight: 500;
     margin-top: 0.1rem;
   }
 
   .job-period {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     color: var(--color-text-muted);
     white-space: nowrap;
     flex-shrink: 0;
+    padding-top: 0.1rem;
   }
 
   .job-summary {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: var(--color-text-muted);
     line-height: 1.6;
     margin: 0;
@@ -253,6 +305,6 @@ const experience: Job[] = [
   @media (max-width: 560px) {
     .profile-header { flex-direction: column; align-items: center; text-align: center; }
     .social-links { justify-content: center; }
-    .job-header { flex-direction: column; gap: 0.15rem; }
+    .job-header { flex-direction: column; gap: 0.1rem; }
   }
 </style>
