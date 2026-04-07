@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 interface Props {
   title: string;
@@ -30,7 +30,7 @@ const formatted = date.toLocaleDateString('en-US', {
   <article class="blog-post">
     <header>
       <div class="meta">
-        <a href={`${base}blog`} class="back">← All posts</a>
+        <a href={`${base}/blog`} class="back">← All posts</a>
         <span class="tag">{categoryLabels[category] ?? category}</span>
       </div>
       <h1>{title}</h1>
