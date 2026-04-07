@@ -1,0 +1,200 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Home">
+  <section class="hero">
+    <div class="hero-text">
+      <p class="greeting">Hi, I'm</p>
+      <h1>Chang-Wen Ho<br /><span class="alias">(Johnny)</span></h1>
+      <p class="role">Senior Product Manager · Taipei, Taiwan</p>
+      <p class="bio">
+        I build digital products that people actually use. With experience spanning B2B SaaS,
+        semiconductor technology, and enterprise platforms, I focus on translating complex
+        problems into clear product direction.
+      </p>
+      <div class="cta-group">
+        <a href="/about" class="btn-primary">About me</a>
+        <a href="/blog" class="btn-secondary">Read my writing</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <img
+        src="https://media.licdn.com/dms/image/v2/D5603AQEKd45XwTkjJQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1698833700979?e=1753315200&v=beta&t=linkedin-photo"
+        alt="Chang-Wen Ho"
+        onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-fallback').style.display='flex';"
+      />
+      <div class="avatar-fallback" style="display:none">JH</div>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="recent-posts">
+      <div class="section-header">
+        <h2>Recent Writing</h2>
+        <a href="/blog">All posts →</a>
+      </div>
+      <div class="post-grid">
+        {posts.map(post => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            category={post.data.category}
+            slug={post.slug}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    padding: 5rem 0 4rem;
+  }
+
+  .greeting {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    line-height: 1.1;
+    margin: 0.25rem 0 0.5rem;
+  }
+
+  .alias {
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  .role {
+    font-size: 1rem;
+    color: var(--color-accent);
+    font-weight: 500;
+    margin: 0 0 1rem;
+  }
+
+  .bio {
+    font-size: 1.02rem;
+    color: var(--color-text-muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin: 0 0 1.75rem;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.6rem 1.3rem;
+    background: var(--color-text);
+    color: #fff;
+    border-radius: 7px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.82;
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.6rem 1.3rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    border-radius: 7px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: border-color 0.15s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .hero-avatar img,
+  .avatar-fallback {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-border);
+  }
+
+  .avatar-fallback {
+    background: var(--color-surface);
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .recent-posts {
+    padding-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .section-header a {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .post-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .hero {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      padding: 3rem 0 2.5rem;
+      gap: 1.5rem;
+    }
+
+    .hero-avatar {
+      order: -1;
+    }
+
+    .hero-avatar img,
+    .avatar-fallback {
+      width: 100px;
+      height: 100px;
+    }
+
+    h1 { font-size: 2rem; }
+  }
+</style>

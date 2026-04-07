@@ -1,0 +1,95 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  category: string;
+  slug: string;
+}
+
+const { title, description, date, category, slug } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  'product-experience': '產品經驗談',
+  'product-perspectives': '產品觀點',
+  'career-growth': '職涯成長',
+  'ai-tools': 'AI / 工具應用',
+};
+
+const formatted = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article>
+  <a href={`/blog/${slug}`}>
+    <div class="meta">
+      <span class="tag">{categoryLabels[category] ?? category}</span>
+      <time datetime={date.toISOString()}>{formatted}</time>
+    </div>
+    <h3>{title}</h3>
+    <p>{description}</p>
+    <span class="read-more">Read more →</span>
+  </a>
+</article>
+
+<style>
+  article {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  article:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 12px rgba(37, 99, 235, 0.08);
+  }
+
+  article > a {
+    display: block;
+    padding: 1.4rem 1.6rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  time {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.35;
+  }
+
+  p {
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+</style>

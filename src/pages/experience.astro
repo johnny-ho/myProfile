@@ -1,0 +1,196 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Job {
+  company: string;
+  role: string;
+  period: string;
+  location: string;
+  description: string[];
+}
+
+const jobs: Job[] = [
+  {
+    company: 'TSMC (台積電)',
+    role: 'Senior Product Manager',
+    period: '2021 – Present',
+    location: 'Taipei, Taiwan',
+    description: [
+      "Driving product strategy and roadmap for enterprise-facing digital platforms within the world's leading semiconductor company.",
+      'Collaborating cross-functionally with engineering, design, and business stakeholders to deliver scalable internal tools and customer-facing features.',
+      'Championing agile practices and data-informed decision-making in complex organizational structures.',
+    ],
+  },
+];
+---
+
+<BaseLayout title="Experience" description="Work experience and career history of Chang-Wen Ho (Johnny).">
+  <div class="exp-page">
+    <header class="page-header">
+      <h1>Experience</h1>
+      <p>My professional journey in product management.</p>
+    </header>
+
+    <div class="timeline">
+      {jobs.map(job => (
+        <div class="job">
+          <div class="job-header">
+            <div>
+              <h2>{job.company}</h2>
+              <p class="role">{job.role}</p>
+            </div>
+            <div class="job-meta">
+              <span class="period">{job.period}</span>
+              <span class="location">{job.location}</span>
+            </div>
+          </div>
+          <ul class="description">
+            {job.description.map(point => <li>{point}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="linkedin-cta">
+      <p>For a full work history, visit my LinkedIn profile.</p>
+      <a href="https://www.linkedin.com/in/changwenho/" target="_blank" rel="noopener noreferrer">
+        View LinkedIn →
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .exp-page {
+    padding: 3rem 0 4rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .page-header p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .job {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .job:first-child {
+    padding-top: 0;
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .job-header h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .role {
+    color: var(--color-accent);
+    font-size: 0.92rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .job-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .period {
+    font-size: 0.85rem;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .location {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .description {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .description li {
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .description li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--color-border);
+  }
+
+  .linkedin-cta {
+    margin-top: 2.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-surface);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .linkedin-cta p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .linkedin-cta a {
+    font-size: 0.88rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 560px) {
+    .job-header {
+      flex-direction: column;
+    }
+
+    .job-meta {
+      align-items: flex-start;
+    }
+
+    .linkedin-cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

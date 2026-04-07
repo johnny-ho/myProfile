@@ -1,0 +1,148 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categories = [
+  { slug: 'product-experience', label: '產品經驗談', en: 'Product Experience' },
+  { slug: 'product-perspectives', label: '產品觀點', en: 'Product Perspectives' },
+  { slug: 'career-growth', label: '職涯成長', en: 'Career Growth' },
+  { slug: 'ai-tools', label: 'AI / 工具應用', en: 'AI & Tools' },
+];
+---
+
+<BaseLayout title="Blog" description="Articles by Johnny Ho on product management, career growth, and AI tools.">
+  <div class="blog-page">
+    <header class="page-header">
+      <h1>Blog</h1>
+      <p>Thoughts on product management, career growth, and the tools that shape how we work.</p>
+    </header>
+
+    <section class="categories">
+      <h2>Categories</h2>
+      <div class="category-grid">
+        {categories.map(cat => {
+          const count = allPosts.filter(p => p.data.category === cat.slug).length;
+          return (
+            <a href={`/blog/${cat.slug}`} class="category-card">
+              <span class="cat-label">{cat.label}</span>
+              <span class="cat-en">{cat.en}</span>
+              <span class="cat-count">{count} {count === 1 ? 'post' : 'posts'}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="all-posts">
+      <h2>All Posts</h2>
+      {allPosts.length === 0 ? (
+        <p class="empty">No posts yet — stay tuned!</p>
+      ) : (
+        <div class="post-list">
+          {allPosts.map(post => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              category={post.data.category}
+              slug={post.slug}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-page {
+    padding: 3rem 0 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .page-header {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .page-header p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    color: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .category-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 10px rgba(37, 99, 235, 0.07);
+    text-decoration: none;
+  }
+
+  .cat-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .cat-en {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .cat-count {
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    margin-top: 0.25rem;
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .empty {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  @media (max-width: 480px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

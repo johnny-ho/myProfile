@@ -1,0 +1,220 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const skills = [
+  'Product Strategy',
+  'Roadmap Planning',
+  'Agile / Scrum',
+  'User Research',
+  'Data Analysis',
+  'Stakeholder Management',
+  'B2B SaaS',
+  'Cloud / FinOps',
+  'AI Tools',
+  'Cross-functional Leadership',
+];
+---
+
+<BaseLayout title="About" description="Learn about Chang-Wen Ho (Johnny), Senior Product Manager based in Taipei, Taiwan.">
+  <div class="about-page">
+    <section class="profile-header">
+      <div class="avatar-wrap">
+        <img
+          src="https://media.licdn.com/dms/image/v2/D5603AQEKd45XwTkjJQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1698833700979?e=1753315200&v=beta&t=linkedin-photo"
+          alt="Chang-Wen Ho"
+          onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-fallback').style.display='flex';"
+        />
+        <div class="avatar-fallback" style="display:none">JH</div>
+      </div>
+      <div class="profile-info">
+        <h1>Chang-Wen Ho <span class="alias">(Johnny)</span></h1>
+        <p class="role">Senior Product Manager</p>
+        <p class="location">📍 Taipei, Taiwan</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/changwenho/" target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bio">
+      <h2>About</h2>
+      <p>
+        I'm a goal-oriented and strategic Senior Product Manager with a track record of delivering
+        impactful products in complex, enterprise environments. My work spans B2B SaaS platforms,
+        semiconductor technology, and cloud infrastructure — always focused on turning ambiguous
+        problems into clear, executable product vision.
+      </p>
+      <p>
+        I'm passionate about how AI tools are reshaping the way PMs work — from research and
+        prioritization to communication and decision-making. I believe the best products emerge when
+        sharp product thinking meets deep user empathy.
+      </p>
+      <p>
+        When I'm not working on product, I write about what I learn — sharing frameworks, real
+        experiences, and honest perspectives on product management and career growth.
+      </p>
+    </section>
+
+    <section class="skills-section">
+      <h2>Skills & Expertise</h2>
+      <div class="skills-grid">
+        {skills.map(skill => <span class="tag">{skill}</span>)}
+      </div>
+    </section>
+
+    <section class="education-section">
+      <h2>Education</h2>
+      <div class="edu-item">
+        <strong>Tunghai University</strong>
+        <span>2009 – 2013</span>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <h2>Get in Touch</h2>
+      <p>Feel free to connect with me on LinkedIn — I'm always open to interesting conversations about product, technology, and career.</p>
+      <a href="https://www.linkedin.com/in/changwenho/" target="_blank" rel="noopener noreferrer" class="btn-primary">
+        Connect on LinkedIn
+      </a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: 3rem 0 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .profile-header {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .avatar-wrap img,
+  .avatar-fallback {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-info h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .alias {
+    color: var(--color-text-muted);
+    font-weight: 400;
+    font-size: 1.4rem;
+  }
+
+  .role {
+    color: var(--color-accent);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .location {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+  }
+
+  .social-links {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .social-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  section h2 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .bio p {
+    line-height: 1.75;
+    color: var(--color-text-muted);
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.95rem;
+  }
+
+  .edu-item span {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .contact-section p {
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.6rem 1.3rem;
+    background: var(--color-text);
+    color: #fff;
+    border-radius: 7px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.82;
+    text-decoration: none;
+  }
+
+  @media (max-width: 560px) {
+    .profile-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+  }
+</style>
