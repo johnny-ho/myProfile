@@ -1,22 +1,48 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { BASE } from '@/lib/base';
+
+const recentPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 
 const skills = [
   'Product Strategy',
   'Roadmap Planning',
   'Agile / Scrum',
   'User Research',
-  'Data Analysis',
   'Stakeholder Management',
   'B2B SaaS',
+  'Enterprise Platforms',
   'Cloud / FinOps',
   'AI Tools',
   'Cross-functional Leadership',
 ];
+
+interface Job {
+  company: string;
+  role: string;
+  period: string;
+  summary: string;
+}
+
+// TODO: Update with complete LinkedIn experience once provided
+const experience: Job[] = [
+  {
+    company: 'TSMC (台積電)',
+    role: 'Senior Product Manager',
+    period: '2021 – Present',
+    summary: 'Leading product strategy and roadmap for enterprise-facing digital platforms at the world\'s leading semiconductor company.',
+  },
+];
 ---
 
-<BaseLayout title="About" description="Learn about Chang-Wen Ho (Johnny), Senior Product Manager based in Taipei, Taiwan.">
+<BaseLayout title="About" description="Chang-Wen Ho (Johnny) — Senior Product Manager based in Hsinchu, Taiwan.">
   <div class="about-page">
+
+    <!-- Profile Header -->
     <section class="profile-header">
       <div class="avatar-wrap">
         <img
@@ -29,34 +55,36 @@ const skills = [
       <div class="profile-info">
         <h1>Chang-Wen Ho <span class="alias">(Johnny)</span></h1>
         <p class="role">Senior Product Manager</p>
-        <p class="location">📍 Taipei, Taiwan</p>
+        <p class="location">📍 Hsinchu, Taiwan</p>
         <div class="social-links">
-          <a href="https://www.linkedin.com/in/changwenho/" target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
+          <a href="https://www.linkedin.com/in/changwenho/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </div>
     </section>
 
+    <!-- Bio -->
     <section class="bio">
       <h2>About</h2>
       <p>
-        I'm a goal-oriented and strategic Senior Product Manager with a track record of delivering
-        impactful products in complex, enterprise environments. My work spans B2B SaaS platforms,
-        semiconductor technology, and cloud infrastructure — always focused on turning ambiguous
-        problems into clear, executable product vision.
+        I make complex systems feel simple. As a Senior Product Manager with over a decade of
+        experience, I've built products at the intersection of deep technology and human workflow —
+        from semiconductor fab platforms to enterprise SaaS tools used by thousands of internal users.
       </p>
       <p>
-        I'm passionate about how AI tools are reshaping the way PMs work — from research and
-        prioritization to communication and decision-making. I believe the best products emerge when
-        sharp product thinking meets deep user empathy.
+        What sets me apart isn't just knowing how to write a PRD or run a sprint — it's the ability
+        to walk into a room full of engineers, operators, and executives, and leave with everyone
+        aligned on what matters and why. I've learned that great product work is 30% vision and
+        70% trust.
       </p>
       <p>
-        When I'm not working on product, I write about what I learn — sharing frameworks, real
-        experiences, and honest perspectives on product management and career growth.
+        I'm genuinely excited about how AI is reshaping the PM role — not by replacing judgment,
+        but by amplifying it. I experiment constantly with tools like Claude and Cursor to work
+        faster and think sharper. I write about what I learn, because the best way to refine
+        thinking is to share it.
       </p>
     </section>
 
+    <!-- Skills -->
     <section class="skills-section">
       <h2>Skills & Expertise</h2>
       <div class="skills-grid">
@@ -64,21 +92,46 @@ const skills = [
       </div>
     </section>
 
-    <section class="education-section">
-      <h2>Education</h2>
-      <div class="edu-item">
-        <strong>Tunghai University</strong>
-        <span>2009 – 2013</span>
+    <!-- Experience -->
+    <section class="experience-section">
+      <h2>Experience</h2>
+      <div class="timeline">
+        {experience.map(job => (
+          <div class="job">
+            <div class="job-header">
+              <div>
+                <strong>{job.company}</strong>
+                <span class="job-role">{job.role}</span>
+              </div>
+              <span class="job-period">{job.period}</span>
+            </div>
+            <p class="job-summary">{job.summary}</p>
+          </div>
+        ))}
       </div>
     </section>
 
-    <section class="contact-section">
-      <h2>Get in Touch</h2>
-      <p>Feel free to connect with me on LinkedIn — I'm always open to interesting conversations about product, technology, and career.</p>
-      <a href="https://www.linkedin.com/in/changwenho/" target="_blank" rel="noopener noreferrer" class="btn-primary">
-        Connect on LinkedIn
-      </a>
-    </section>
+    <!-- Recent Writing -->
+    {recentPosts.length > 0 && (
+      <section class="recent-writing">
+        <div class="section-header">
+          <h2>Recent Writing</h2>
+          <a href={`${BASE}/talk`}>All posts →</a>
+        </div>
+        <div class="post-list">
+          {recentPosts.map(post => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              category={post.data.category}
+              slug={post.slug}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
   </div>
 </BaseLayout>
 
@@ -90,11 +143,8 @@ const skills = [
     gap: 3rem;
   }
 
-  .profile-header {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-  }
+  /* Profile Header */
+  .profile-header { display: flex; gap: 2rem; align-items: flex-start; }
 
   .avatar-wrap img,
   .avatar-fallback {
@@ -116,105 +166,93 @@ const skills = [
     color: var(--color-text-muted);
   }
 
-  .profile-info {
-    flex: 1;
-  }
+  .profile-info { flex: 1; }
+  .profile-info h1 { font-size: 1.8rem; margin-bottom: 0.25rem; }
+  .alias { color: var(--color-text-muted); font-weight: 400; font-size: 1.4rem; }
+  .role { color: var(--color-accent); font-weight: 500; margin: 0; }
+  .location { color: var(--color-text-muted); font-size: 0.9rem; margin: 0.25rem 0; }
 
-  .profile-info h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.25rem;
-  }
+  .social-links { margin-top: 0.75rem; display: flex; gap: 0.75rem; }
+  .social-links a { font-size: 0.85rem; font-weight: 500; }
 
-  .alias {
-    color: var(--color-text-muted);
-    font-weight: 400;
-    font-size: 1.4rem;
-  }
-
-  .role {
-    color: var(--color-accent);
-    font-weight: 500;
-    margin: 0;
-  }
-
-  .location {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-    margin: 0.25rem 0;
-  }
-
-  .social-links {
-    margin-top: 0.75rem;
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .social-links a {
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-
+  /* Section headings */
   section h2 {
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--color-border);
   }
 
-  .bio p {
-    line-height: 1.75;
-    color: var(--color-text-muted);
+  /* Bio */
+  .bio p { line-height: 1.75; color: var(--color-text-muted); }
+
+  /* Skills */
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  /* Experience */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .job {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+  .job:first-child { padding-top: 0; }
 
-  .edu-item {
+  .job-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.95rem;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
   }
 
-  .edu-item span {
-    color: var(--color-text-muted);
+  .job-header strong { font-size: 0.95rem; }
+
+  .job-role {
+    display: block;
     font-size: 0.85rem;
-  }
-
-  .contact-section p {
-    color: var(--color-text-muted);
-    margin-bottom: 1rem;
-  }
-
-  .btn-primary {
-    display: inline-block;
-    padding: 0.6rem 1.3rem;
-    background: var(--color-text);
-    color: #fff;
-    border-radius: 7px;
-    font-size: 0.9rem;
+    color: var(--color-accent);
     font-weight: 500;
-    transition: opacity 0.15s;
+    margin-top: 0.1rem;
   }
 
-  .btn-primary:hover {
-    opacity: 0.82;
-    text-decoration: none;
+  .job-period {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
+
+  .job-summary {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Recent Writing */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-header h2 {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .section-header a { font-size: 0.85rem; color: var(--color-text-muted); }
+
+  .post-list { display: flex; flex-direction: column; gap: 1rem; }
 
   @media (max-width: 560px) {
-    .profile-header {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .social-links {
-      justify-content: center;
-    }
+    .profile-header { flex-direction: column; align-items: center; text-align: center; }
+    .social-links { justify-content: center; }
+    .job-header { flex-direction: column; gap: 0.15rem; }
   }
 </style>

@@ -2,10 +2,8 @@
 import { BASE } from '@/lib/base';
 
 const navLinks = [
-  { href: `${BASE}/`, label: 'Home' },
   { href: `${BASE}/about`, label: 'About' },
-  { href: `${BASE}/experience`, label: 'Experience' },
-  { href: `${BASE}/blog`, label: 'Blog' },
+  { href: `${BASE}/talk`, label: 'Talk' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -13,13 +11,13 @@ const currentPath = Astro.url.pathname;
 
 <header>
   <nav class="container">
-    <a href={`${BASE}/`} class="logo">Johnny Ho</a>
+    <a href={`${BASE}/about`} class="logo">Johnny Ho</a>
     <ul>
       {navLinks.map(({ href, label }) => (
         <li>
           <a
             href={href}
-            class={currentPath === href || (href !== `${BASE}/` && currentPath.startsWith(href)) ? 'active' : ''}
+            class={currentPath.startsWith(href) ? 'active' : ''}
           >{label}</a>
         </li>
       ))}
@@ -56,17 +54,9 @@ const currentPath = Astro.url.pathname;
     white-space: nowrap;
   }
 
-  .logo:hover {
-    text-decoration: none;
-    color: var(--color-accent);
-  }
+  .logo:hover { text-decoration: none; color: var(--color-accent); }
 
-  ul {
-    list-style: none;
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
-  }
+  ul { list-style: none; display: flex; gap: 0.25rem; align-items: center; }
 
   ul a {
     color: var(--color-text-muted);
@@ -76,16 +66,8 @@ const currentPath = Astro.url.pathname;
     transition: color 0.15s, background 0.15s;
   }
 
-  ul a:hover {
-    color: var(--color-text);
-    background: var(--color-surface);
-    text-decoration: none;
-  }
-
-  ul a.active {
-    color: var(--color-accent);
-    font-weight: 500;
-  }
+  ul a:hover { color: var(--color-text); background: var(--color-surface); text-decoration: none; }
+  ul a.active { color: var(--color-accent); font-weight: 500; }
 
   @media (max-width: 480px) {
     .logo { font-size: 0.95rem; }
