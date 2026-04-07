@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   site: 'https://johnny-ho.github.io',
+  base: '/myProfile',
   integrations: [mdx()],
   vite: {
     resolve: {
