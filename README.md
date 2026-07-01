@@ -1,4 +1,8 @@
-# Astro Starter Kit: Minimal
+# myProfile
+
+**Live site:** https://johnny-ho.github.io/myProfile/
+
+---
 
 ```sh
 npm create astro@latest -- --template minimal
