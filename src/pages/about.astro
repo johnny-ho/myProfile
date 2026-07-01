@@ -100,9 +100,9 @@ const hiddenJobs = experience.slice(3);
     <section class="profile-header">
       <div class="avatar-wrap">
         <img
-          src={`${BASE}/avatar.png`}
+          src="https://github.com/johnny-ho.png"
           alt="Chang-Wen Ho"
-          onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-fallback').style.display='flex';"
+          onerror="this.src=`${BASE}/avatar.png`;this.onerror=()=>{this.style.display='none';this.parentElement.querySelector('.avatar-fallback').style.display='flex';};"
         />
         <div class="avatar-fallback" style="display:none">JH</div>
       </div>
